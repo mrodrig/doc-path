@@ -68,7 +68,7 @@ var pathTests = function () {
                 assert.equal(doc, null);
                 var returnVal = path.setPath(doc, 'testProperty', 'null');
             } catch (err) {
-                err.message.should.equal('error occurred while setting');
+                err.message.should.equal('No document was provided.');
                 done();
             }
         });
@@ -85,7 +85,7 @@ var pathTests = function () {
                 assert.equal(doc, null);
                 var returnVal = path.setPath(doc, 'testProperty.test', 'null');
             } catch (err) {
-                err.message.should.equal('error occurred while setting');
+                err.message.should.equal('No document was provided.');
                 done();
             }
         });
