@@ -1,0 +1,19 @@
+{
+  "name": "doc-path",
+  "version": "1.0.0",
+  "homepage": "https://github.com/mrodrig/doc-path",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "underscore": "1.8.3"
+  }
+}

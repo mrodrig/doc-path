@@ -1,0 +1,42 @@
+{
+    "author": "mrodrig",
+    "name": "doc-path",
+    "description": "A document path library for Node.JS",
+    "version": "1.0.0",
+    "repository": {
+        "type": "git",
+    	"url": "http://github.com/mrodrig/doc-path.git"
+    },
+    "main": "./lib/path.js",
+    "scripts": {
+        "test": "./node_modules/.bin/mocha test/tests.js",
+        "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -R spec"
+    },
+    "keywords": [
+        "document",
+        "json",
+        "json library",
+        "document path",
+        "doc-path",
+        "doc path",
+        "doc",
+        "path",
+        "json path",
+        "path evaluator",
+        "object",
+        "object path"
+    ],
+    "dependencies": {
+    	"underscore": "~1.8.3"
+    },
+    "devDependencies": {
+        "mocha": "~2.2.4",
+        "istanbul": "~0.3.13",
+        "should": "~5.2.0",
+        "async": "~0.9.0"
+    },
+    "engines": {
+    	"node": "*"
+    },
+    "license": "MIT"
+}
