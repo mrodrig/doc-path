@@ -1,6 +1,7 @@
 {
   "name": "doc-path",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "main": "lib/path.js",
   "homepage": "https://github.com/mrodrig/doc-path",
   "moduleType": [
     "node"
