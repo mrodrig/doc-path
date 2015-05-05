@@ -72,7 +72,7 @@ If no document is provided, an error will be thrown.
  console.log(path.setPath(document, 'Color.Interior', 'Tan'));
  // => { Make: 'Nissan', Color: { Interior: 'Tan' } }
 
- console.log(path.evaluatePath(document, 'StockNumber', '34567'));
+ console.log(path.setPath(document, 'StockNumber', '34567'));
  // => { Make: 'Nissan', Color: { Interior: 'Tan' }, StockNumber: '34567' }
  ```
 

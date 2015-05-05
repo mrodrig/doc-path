@@ -26,9 +26,7 @@
         "object",
         "object path"
     ],
-    "dependencies": {
-    	"underscore": "~1.8.3"
-    },
+    "dependencies": {},
     "devDependencies": {
         "mocha": "~2.2.4",
         "istanbul": "~0.3.13",
