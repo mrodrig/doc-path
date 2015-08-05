@@ -49,6 +49,18 @@ var pathTests = function () {
             assert.equal(returnVal, 'testVal2');
             done();
         });
+        
+        it('should prioritize work with equal key value', function (done) {
+            doc = {
+                testProperty : {
+                    testProperty2: 'testVal'
+                },
+                'testProperty.testProperty2' : 'testVal2'
+            };
+            var returnVal = path.evaluatePath(doc, 'testProperty.testProperty2');
+            assert.equal(returnVal, 'testVal2');
+            done();
+        });
     });
 
     describe('setPath', function () {
