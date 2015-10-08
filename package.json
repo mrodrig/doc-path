@@ -28,7 +28,7 @@
     ],
     "dependencies": {},
     "devDependencies": {
-        "mocha": "~2.2.4",
+        "mocha": "~2.3.3",
         "istanbul": "~0.3.13",
         "should": "~7.0.2",
         "underscore": "~1.8.3"
