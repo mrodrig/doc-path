@@ -2,7 +2,7 @@
     "author": "mrodrig",
     "name": "doc-path",
     "description": "A document path library for Node.JS",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "repository": {
         "type": "git",
     	"url": "http://github.com/mrodrig/doc-path.git"
@@ -30,7 +30,7 @@
     "devDependencies": {
         "mocha": "~2.3.3",
         "istanbul": "~0.3.13",
-        "should": "~7.0.2",
+        "should": "~7.1.0",
         "underscore": "~1.8.3"
     },
     "engines": {
