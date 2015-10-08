@@ -4,6 +4,7 @@
 ![David - Dependency Checker Icon](https://david-dm.org/mrodrig/doc-path.png "doc-path Dependency Status")
 [![Monthly Downloads](http://img.shields.io/npm/dm/doc-path.svg)](https://www.npmjs.org/package/doc-path)
 [![NPM version](https://img.shields.io/npm/v/doc-path.svg)](https://www.npmjs.org/package/doc-path)
+[![bitHound Score](https://www.bithound.io/github/mrodrig/doc-path/badges/score.svg)](https://www.bithound.io/github/mrodrig/doc-path)
 
 This module will take paths in documents which can include nested paths specified by '.'s and can evaluate the path
 to a value, or can set the value at that path depending on the function called.
