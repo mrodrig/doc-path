@@ -2,7 +2,7 @@
     "author": "mrodrig",
     "name": "doc-path",
     "description": "A document path library for Node.JS",
-    "version": "1.0.8",
+    "version": "1.1.0",
     "repository": {
         "type": "git",
     	"url": "http://github.com/mrodrig/doc-path.git"
