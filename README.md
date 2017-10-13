@@ -28,7 +28,7 @@ var path = require('doc-path');
 * `document` - `Object` - A JSON document that will be iterated over.
 * `key` - `String` - A path to the existing key whose value will be returned.
 
-If the key does not exist, `null` is returned.
+If the key does not exist, `undefined` is returned.
 
 ##### path.evaluatePath Example:
 
