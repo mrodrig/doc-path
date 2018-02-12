@@ -1,7 +1,7 @@
 # A Document Path Library for Node
 
 [![Build Status](https://travis-ci.org/mrodrig/doc-path.svg?branch=master)](https://travis-ci.org/mrodrig/doc-path)
-![David - Dependency Checker Icon](https://david-dm.org/mrodrig/doc-path.png "doc-path Dependency Status")
+[![Dependencies](https://www.bithound.io/github/mrodrig/doc-path/badges/dependencies.svg)](https://www.bithound.io/github/mrodrig/doc-path/master/dependencies/npm)
 [![Monthly Downloads](http://img.shields.io/npm/dm/doc-path.svg)](https://www.npmjs.org/package/doc-path)
 [![NPM version](https://img.shields.io/npm/v/doc-path.svg)](https://www.npmjs.org/package/doc-path)
 [![bitHound Score](https://www.bithound.io/github/mrodrig/doc-path/badges/score.svg)](https://www.bithound.io/github/mrodrig/doc-path)
