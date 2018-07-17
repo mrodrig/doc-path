@@ -1,10 +1,10 @@
 # A Document Path Library for Node
 
 [![Build Status](https://travis-ci.org/mrodrig/doc-path.svg?branch=master)](https://travis-ci.org/mrodrig/doc-path)
-[![Dependencies](https://www.bithound.io/github/mrodrig/doc-path/badges/dependencies.svg)](https://www.bithound.io/github/mrodrig/doc-path/master/dependencies/npm)
+[![Dependencies](https://img.shields.io/david/mrodrig/doc-path.svg?style=flat-square)](https://www.npmjs.org/package/doc-path)
 [![Monthly Downloads](http://img.shields.io/npm/dm/doc-path.svg)](https://www.npmjs.org/package/doc-path)
 [![NPM version](https://img.shields.io/npm/v/doc-path.svg)](https://www.npmjs.org/package/doc-path)
-[![bitHound Score](https://www.bithound.io/github/mrodrig/doc-path/badges/score.svg)](https://www.bithound.io/github/mrodrig/doc-path)
+[![Known Vulnerabilities](https://snyk.io/test/npm/doc-path/badge.svg)](https://snyk.io/test/npm/doc-path)
 
 This module will take paths in documents which can include nested paths specified by '.'s and can evaluate the path
 to a value, or can set the value at that path depending on the function called.
