@@ -4,3 +4,4 @@ npm-debug.log
 .travis.yml
 node_modules/
 node_modules/*
+coverage
