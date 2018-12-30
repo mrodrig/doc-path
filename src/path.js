@@ -1,37 +1,48 @@
-var controller = {};
+'use strict';
 
-controller.evaluatePath = function (document, keyPath) {
-    if (!document) { return null; }
-    var indexOfDot = keyPath.indexOf('.');
+module.exports = {
+    evaluatePath,
+    setPath
+};
+
+function evaluatePath(document, keyPath) {
+    if (!document) {
+        return null;
+    }
+
+    let indexOfDot = keyPath.indexOf('.');
 
     // If there is a '.' in the keyPath and keyPath doesn't present in the document, recur on the subdoc and ...
     if (indexOfDot >= 0 && !document[keyPath]) {
-        var currentKey = keyPath.slice(0, indexOfDot),
+        let currentKey = keyPath.slice(0, indexOfDot),
             remainingKeyPath = keyPath.slice(indexOfDot + 1);
 
-        return controller.evaluatePath(document[currentKey], remainingKeyPath);
+        return evaluatePath(document[currentKey], remainingKeyPath);
     }
 
     return document[keyPath];
-};
+}
 
-controller.setPath = function (document, keyPath, value) {
-    if (!document) { throw new Error('No document was provided.'); }
+function setPath(document, keyPath, value) {
+    if (!document) {
+        throw new Error('No document was provided.');
+    }
 
-    var indexOfDot = keyPath.indexOf('.');
+    let indexOfDot = keyPath.indexOf('.');
 
     // If there is a '.' in the keyPath, recur on the subdoc and ...
     if (indexOfDot >= 0) {
-        var currentKey = keyPath.slice(0, indexOfDot),
+        let currentKey = keyPath.slice(0, indexOfDot),
             remainingKeyPath = keyPath.slice(indexOfDot + 1);
 
-        if (!document[currentKey]) { document[currentKey] = {}; }
-        controller.setPath(document[currentKey], remainingKeyPath, value);
+        if (!document[currentKey]) {
+            document[currentKey] = {};
+
+        }
+        setPath(document[currentKey], remainingKeyPath, value);
     } else {
         document[keyPath] = value;
     }
 
     return document;
-};
-
-module.exports = controller;
+}
