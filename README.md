@@ -1,11 +1,15 @@
 # A Document Path Library for Node
 
 [![Dependencies](https://img.shields.io/david/mrodrig/doc-path.svg?style=flat-square)](https://www.npmjs.org/package/doc-path)
-[![Build Status](https://travis-ci.org/mrodrig/doc-path.svg?branch=master)](https://travis-ci.org/mrodrig/doc-path)
-[![Monthly Downloads](http://img.shields.io/npm/dm/doc-path.svg)](https://www.npmjs.org/package/doc-path)
+[![Downloads](http://img.shields.io/npm/dm/doc-path.svg)](https://www.npmjs.org/package/doc-path)
 [![NPM version](https://img.shields.io/npm/v/doc-path.svg)](https://www.npmjs.org/package/doc-path)
-[![Maintainability](https://api.codeclimate.com/v1/badges/8d357f67aa5aaf8d727e/maintainability)](https://codeclimate.com/github/mrodrig/doc-path/maintainability)
 [![Known Vulnerabilities](https://snyk.io/test/npm/doc-path/badge.svg)](https://snyk.io/test/npm/doc-path)
+[![Package Size](https://img.shields.io/bundlephobia/min/doc-path.svg)](https://www.npmjs.org/package/doc-path)
+
+[![Build Status](https://travis-ci.org/mrodrig/doc-path.svg?branch=master)](https://travis-ci.org/mrodrig/doc-path)
+[![Maintainability](https://api.codeclimate.com/v1/badges/8c0cc3699d054fb77abe/maintainability)](https://codeclimate.com/github/mrodrig/json-2-csv/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/8c0cc3699d054fb77abe/test_coverage)](https://codeclimate.com/github/mrodrig/json-2-csv/test_coverage)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=rodrigues.mi%40husky.neu.edu&item_name=Open+Source+Software+Development+-+Node+Modules&currency_code=USD&source=url)
 
 This module will take paths in documents which can include nested paths specified by '.'s and can evaluate the path
 to a value, or can set the value at that path depending on the function called.
