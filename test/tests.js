@@ -1,12 +1,15 @@
+'use strict';
+
+/* eslint no-unused-vars: ["error", { "varsIgnorePattern": "should" }]*/
+
 let path = require('../src/path'),
     should = require('should'),
     assert = require('assert'),
-    _ = require('underscore'),
     doc = {};
 
 describe('doc-path Module', function() {
-    describe('evaluatePath', function () {
-        beforeEach(function () {
+    describe('evaluatePath', function() {
+        beforeEach(function() {
             doc = {};
         });
 
@@ -24,7 +27,9 @@ describe('doc-path Module', function() {
         });
 
         it('should get a non-nested property that exists', function(done) {
-            doc.testProperty = {testProperty2:'testValue'};
+            doc.testProperty = {
+                testProperty2: 'testValue'
+            };
             let returnVal = path.evaluatePath(doc, 'testProperty.testProperty2');
             returnVal.should.equal('testValue');
             done();
@@ -36,12 +41,12 @@ describe('doc-path Module', function() {
             done();
         });
 
-        it('should work with multiple accesses', function (done) {
+        it('should work with multiple accesses', (done) => {
             doc = {
-                testProperty : {
+                testProperty: {
                     testProperty2: 'testVal'
                 },
-                'testProperty3' : 'testVal2'
+                testProperty3: 'testVal2'
             };
             let returnVal = path.evaluatePath(doc, 'testProperty.testProperty2');
             assert.equal(returnVal, 'testVal');
@@ -50,12 +55,12 @@ describe('doc-path Module', function() {
             done();
         });
 
-        it('should prioritize work with equal key value', function (done) {
+        it('should prioritize work with equal key value', (done) => {
             doc = {
-                testProperty : {
+                testProperty: {
                     testProperty2: 'testVal'
                 },
-                'testProperty.testProperty2' : 'testVal2'
+                'testProperty.testProperty2': 'testVal2'
             };
             let returnVal = path.evaluatePath(doc, 'testProperty.testProperty2');
             assert.equal(returnVal, 'testVal2');
@@ -63,8 +68,8 @@ describe('doc-path Module', function() {
         });
     });
 
-    describe('setPath', function () {
-        beforeEach(function () {
+    describe('setPath', () => {
+        beforeEach(() => {
             doc = {};
         });
 
@@ -78,7 +83,7 @@ describe('doc-path Module', function() {
             try {
                 doc = null;
                 assert.equal(doc, null);
-                let returnVal = path.setPath(doc, 'testProperty', 'null');
+                path.setPath(doc, 'testProperty', 'null');
             } catch (err) {
                 err.message.should.equal('No document was provided.');
                 done();
@@ -95,14 +100,14 @@ describe('doc-path Module', function() {
             try {
                 doc = null;
                 assert.equal(doc, null);
-                let returnVal = path.setPath(doc, 'testProperty.test', 'null');
+                path.setPath(doc, 'testProperty.test', 'null');
             } catch (err) {
                 err.message.should.equal('No document was provided.');
                 done();
             }
         });
 
-        it('should work with multiple accesses', function (done) {
+        it('should work with multiple accesses', (done) => {
             let returnVal = path.setPath(doc, 'testProperty.testProperty2', 'testVal');
             assert.equal(returnVal, doc);
             returnVal = path.setPath(doc, 'testProperty.testProperty2', 'testVal2');
