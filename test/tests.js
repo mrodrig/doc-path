@@ -55,7 +55,7 @@ describe('doc-path Module', function() {
             done();
         });
 
-        it('should prioritize work with equal key value', (done) => {
+        it('should work with equal key value', (done) => {
             doc = {
                 testProperty: {
                     testProperty2: 'testVal'
@@ -64,6 +64,51 @@ describe('doc-path Module', function() {
             };
             let returnVal = path.evaluatePath(doc, 'testProperty.testProperty2');
             assert.equal(returnVal, 'testVal2');
+            done();
+        });
+
+        it('should work with a nested array of objects', (done) => {
+            doc = {
+                features: [
+                    { feature: 'A/C' },
+                    { feature: 'Radio' }
+                ]
+            };
+            let returnVal = path.evaluatePath(doc, 'features.feature');
+            returnVal.should.deepEqual(['A/C', 'Radio']);
+            done();
+        });
+
+        it('should work with multiple levels of nested arrays containing objects', (done) => {
+            doc = {
+                features: [
+                    {
+                        packages: [
+                            {name: 'Base'},
+                            {name: 'Premium'}
+                        ]
+                    },
+                    {
+                        packages: [
+                            {name: 'Convenience'},
+                            {name: 'Premium'},
+                            5
+                        ]
+                    }
+                ]
+            };
+            let returnVal = path.evaluatePath(doc, 'features.packages.name');
+            returnVal.should.deepEqual([['Base', 'Premium'], ['Convenience', 'Premium', undefined]]);
+            done();
+        });
+
+        it('should work with an array of objects', (done) => {
+            doc = [
+                { feature: 'A/C' },
+                { feature: 'Radio' }
+            ];
+            let returnVal = path.evaluatePath(doc, 'feature');
+            returnVal.should.deepEqual(['A/C', 'Radio']);
             done();
         });
     });
@@ -112,6 +157,62 @@ describe('doc-path Module', function() {
             assert.equal(returnVal, doc);
             returnVal = path.setPath(doc, 'testProperty.testProperty2', 'testVal2');
             assert.equal(returnVal, doc);
+            done();
+        });
+
+        it('should work an array of objects', (done) => {
+            doc = {
+                features: [
+                    { feature: 'A/C' },
+                    { feature: 'Radio' }
+                ]
+            };
+
+            let returnVal = path.setPath(doc, 'features.feature', 'None');
+            returnVal.should.deepEqual({
+                features: [
+                    { feature: 'None' },
+                    { feature: 'None' }
+                ]
+            });
+            done();
+        });
+
+        it('should work an array of objects', (done) => {
+            doc = {
+                features: [
+                    {
+                        packages: [
+                            {name: 'Base'},
+                            {name: 'Premium'}
+                        ]
+                    },
+                    {
+                        packages: [
+                            {name: 'Convenience'},
+                            {name: 'Premium'}
+                        ]
+                    }
+                ]
+            };
+
+            let returnVal = path.setPath(doc, 'features.packages.name', 'None');
+            returnVal.should.deepEqual({
+                features: [
+                    {
+                        packages: [
+                            {name: 'None'},
+                            {name: 'None'}
+                        ]
+                    },
+                    {
+                        packages: [
+                            {name: 'None'},
+                            {name: 'None'}
+                        ]
+                    }
+                ]
+            });
             done();
         });
     });

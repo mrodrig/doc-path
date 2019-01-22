@@ -2,7 +2,7 @@
     "author": "mrodrig",
     "name": "doc-path",
     "description": "A document path library for Node",
-    "version": "1.3.1",
+    "version": "2.0.0",
     "repository": {
         "type": "git",
         "url": "http://github.com/mrodrig/doc-path.git"
@@ -31,13 +31,13 @@
     ],
     "dependencies": {},
     "devDependencies": {
-        "eslint": "5.11.1",
-        "mocha": "5.2.0",
+        "eslint": "5.12.1",
         "istanbul": "0.4.5",
+        "mocha": "5.2.0",
         "should": "13.2.3"
     },
     "engines": {
-        "node": "*"
+        "node": ">=6.0"
     },
     "license": "MIT"
 }

@@ -47,7 +47,23 @@ let document = {
     Specifications: {
         Mileage: '7106',
         Trim: 'S AWD'
-    }
+    },
+    Features: [
+		{
+		    feature: 'A/C',
+			packages: [
+				{name: 'Base'},
+				{name: 'Premium'}
+			]
+		},
+		{
+		    feature: 'Radio',
+			packages: [
+				{name: 'Convenience'},
+				{name: 'Premium'}
+			]
+		}
+	]
 };
 
 console.log(path.evaluatePath(document, 'Make'));
@@ -55,6 +71,12 @@ console.log(path.evaluatePath(document, 'Make'));
 
 console.log(path.evaluatePath(document, 'Specifications.Mileage'));
 // => '7106'
+
+console.log(path.evaluatePath(document, 'Features.feature'));
+// => [ 'A/C', 'Radio' ]
+
+console.log(path.evaluatePath(document, 'Features.packages.name'));
+// => [ ['Base', 'Premium'], ['Convenience', 'Premium'] ]
 ```
 
 #### path.setPath(document, key, value)
@@ -72,14 +94,55 @@ If no document is provided, an error will be thrown.
  const path = require('doc-path');
 
  let document = {
-     Make: 'Nissan'
+     Make: 'Nissan',
+     Features: [
+         { feature: 'A/C' }
+     ]
  };
 
  console.log(path.setPath(document, 'Color.Interior', 'Tan'));
- // => { Make: 'Nissan', Color: { Interior: 'Tan' } }
+ /*
+	{ 
+		Make: 'Nissan',
+		Features: [
+			{ feature: 'A/C' }
+		]
+		Color: { 
+			Interior: 'Tan'
+		}
+	}
+ */
 
  console.log(path.setPath(document, 'StockNumber', '34567'));
- // => { Make: 'Nissan', Color: { Interior: 'Tan' }, StockNumber: '34567' }
+ /*
+	{ 
+		Make: 'Nissan',
+		Features: [
+			{ feature: 'A/C' }
+		]
+		Color: { 
+			Interior: 'Tan'
+		},
+		StockNumber: '34567'
+	}
+ */
+ 
+ console.log(path.setPath(document, 'Features.cost', '$0 (Standard)'));
+  /*
+ 	{ 
+		Make: 'Nissan',
+		Features: [
+			{
+				feature: 'A/C',
+				cost: '$0 (Standard)'
+			}
+		]
+		Color: { 
+			Interior: 'Tan'
+		},
+		StockNumber: '34567'
+ 	}
+  */
  ```
 
 ## Tests
@@ -97,13 +160,14 @@ $ npm run coverage
 
 Current Coverage is:
 ```
-Statements   : 100% ( 21/21 )
-Branches     : 100% ( 12/12 )
-Functions    : 100% ( 2/2 )
-Lines        : 100% ( 18/18 )
+Statements   : 100% ( 33/33 )
+Branches     : 100% ( 24/24 )
+Functions    : 100% ( 3/3 )
+Lines        : 100% ( 29/29 )
 ```
 
 ## Features
 
 - Supports nested paths
+  - Including keys of objects inside arrays! (as of v2.0.0)
 - Same common path specification as other programs such as MongoDB
