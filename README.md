@@ -1,6 +1,6 @@
 # A Document Path Library for Node
 
-[![Dependencies](https://img.shields.io/david/mrodrig/doc-path.svg?style=flat-square)](https://www.npmjs.org/package/doc-path)
+[![Dependencies](https://img.shields.io/david/mrodrig/doc-path.svg)](https://www.npmjs.org/package/doc-path)
 [![Downloads](http://img.shields.io/npm/dm/doc-path.svg)](https://www.npmjs.org/package/doc-path)
 [![NPM version](https://img.shields.io/npm/v/doc-path.svg)](https://www.npmjs.org/package/doc-path)
 [![Known Vulnerabilities](https://snyk.io/test/npm/doc-path/badge.svg)](https://snyk.io/test/npm/doc-path)

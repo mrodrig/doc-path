@@ -2,16 +2,16 @@
     "author": "mrodrig",
     "name": "doc-path",
     "description": "A document path library for Node",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "repository": {
         "type": "git",
         "url": "http://github.com/mrodrig/doc-path.git"
     },
     "main": "./src/path.js",
     "scripts": {
-        "test": "./node_modules/.bin/mocha test/tests.js",
-        "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- -R spec",
-        "lint": "./node_modules/.bin/eslint src test"
+        "test": "mocha test/tests.js",
+        "coverage": "nyc --reporter=lcov --reporter=text-summary --reporter=text _mocha",
+        "lint": "eslint src test"
     },
     "keywords": [
         "document",
@@ -31,8 +31,8 @@
     ],
     "dependencies": {},
     "devDependencies": {
-        "eslint": "5.12.1",
-        "istanbul": "0.4.5",
+        "eslint": "5.16.0",
+        "nyc": "13.3.0",
         "mocha": "5.2.0",
         "should": "13.2.3"
     },
