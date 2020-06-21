@@ -3,6 +3,7 @@ env:
     - CC_TEST_REPORTER_ID=bf120a504e138055e0d71e23e1acd2d75d5dfe9fbcdaf0268ee9f4e3a23e5b2f
 language: node_js
 node_js:
+  - "14"
   - "12"
   - "11"
   - "10"
