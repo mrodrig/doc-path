@@ -36,8 +36,11 @@ function setPath(document, keyPath, value) {
 
     let {indexOfDot, currentKey, remainingKeyPath} = computeStateInformation(keyPath);
 
-    // If there is a '.' in the keyPath, recur on the subdoc and ...
-    if (indexOfDot >= 0) {
+    if (currentKey === '__proto__' || document === Object && currentKey === 'prototype') {
+        // Refuse to modify anything on __proto__, return the document
+        return document;
+    } else if (indexOfDot >= 0) {
+        // If there is a '.' in the keyPath, recur on the subdoc and ...
         if (!document[currentKey] && Array.isArray(document)) {
             // If this is an array and there are multiple levels of keys to iterate over, recur.
             return document.forEach((doc) => setPath(doc, keyPath, value));

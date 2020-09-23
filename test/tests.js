@@ -215,5 +215,21 @@ describe('doc-path Module', function() {
             });
             done();
         });
+
+        it('should protect against prototype pollution via __proto__', (done) => {
+            doc = {};
+            path.setPath(doc, '__proto__.polluted', 'yes');
+            assert.equal(doc.__proto__.polluted, undefined);
+            assert.equal(doc.polluted, undefined);
+            assert.equal({}.polluted, undefined);
+            done();
+        });
+
+        it('should protect against prototype pollution via Object.prototype', (done) => {
+            path.setPath(Object, 'prototype.polluted', 'yes');
+            assert.equal(Object.prototype.polluted, undefined);
+            assert.equal({}.polluted, undefined);
+            done();
+        });
     });
 });
