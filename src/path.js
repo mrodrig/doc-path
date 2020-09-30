@@ -36,7 +36,8 @@ function setPath(document, keyPath, value) {
 
     let {indexOfDot, currentKey, remainingKeyPath} = computeStateInformation(keyPath);
 
-    if (currentKey === '__proto__' || document === Object && currentKey === 'prototype') {
+    // if (currentKey === '__proto__' || currentKey === 'prototype' && Object.prototype.hasOwnProperty.call(document, currentKey)) {
+    if (currentKey === '__proto__') {
         // Refuse to modify anything on __proto__, return the document
         return document;
     } else if (indexOfDot >= 0) {

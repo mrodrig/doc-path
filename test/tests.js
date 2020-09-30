@@ -224,12 +224,5 @@ describe('doc-path Module', function() {
             assert.equal({}.polluted, undefined);
             done();
         });
-
-        it('should protect against prototype pollution via Object.prototype', (done) => {
-            path.setPath(Object, 'prototype.polluted', 'yes');
-            assert.equal(Object.prototype.polluted, undefined);
-            assert.equal({}.polluted, undefined);
-            done();
-        });
     });
 });
