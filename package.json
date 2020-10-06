@@ -2,7 +2,7 @@
     "author": "mrodrig",
     "name": "doc-path",
     "description": "A document path library for Node",
-    "version": "2.1.1",
+    "version": "2.1.2",
     "repository": {
         "type": "git",
         "url": "http://github.com/mrodrig/doc-path.git"
@@ -37,7 +37,7 @@
         "should": "13.2.3"
     },
     "engines": {
-        "node": ">=6.0"
+        "node": ">=10"
     },
     "license": "MIT"
 }
