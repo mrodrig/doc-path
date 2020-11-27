@@ -37,7 +37,7 @@ function setPath(document, keyPath, value) {
     }
 
     // If this is clearly a prototype pollution attempt, then refuse to modify the path
-    if (keyPath.startsWith('__proto__') || keyPath.startsWith('constructor')) {
+    if (keyPath.startsWith('__proto__') || keyPath.startsWith('constructor') || keyPath.startsWith('prototype')) {
         return document;
     }
 
