@@ -3,7 +3,6 @@
 [![Dependencies](https://img.shields.io/david/mrodrig/doc-path.svg)](https://www.npmjs.org/package/doc-path)
 [![Downloads](http://img.shields.io/npm/dm/doc-path.svg)](https://www.npmjs.org/package/doc-path)
 [![NPM version](https://img.shields.io/npm/v/doc-path.svg)](https://www.npmjs.org/package/doc-path)
-[![Known Vulnerabilities](https://snyk.io/test/npm/doc-path/badge.svg)](https://snyk.io/test/npm/doc-path)
 [![Package Size](https://img.shields.io/bundlephobia/min/doc-path.svg)](https://www.npmjs.org/package/doc-path)
 
 [![Build Status](https://travis-ci.org/mrodrig/doc-path.svg?branch=master)](https://travis-ci.org/mrodrig/doc-path)
