@@ -2,7 +2,7 @@
 
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "should" }]*/
 
-let path = require('../dist/path'),
+let path = require('../src/path'),
     should = require('should'),
     assert = require('assert'),
     doc = {};
@@ -124,7 +124,7 @@ describe('doc-path Module', function() {
             done();
         });
 
-        it('should return null if the non-nested property does not exist', function(done) {
+        it('should throw an error if no object was provided', function(done) {
             try {
                 doc = null;
                 assert.equal(doc, null);
@@ -141,13 +141,25 @@ describe('doc-path Module', function() {
             done();
         });
 
-        it('should return null if the nested property does not exist', function(done) {
+        it('should throw an error if no object was provided with recursive key', function(done) {
             try {
                 doc = null;
                 assert.equal(doc, null);
                 path.setPath(doc, 'testProperty.test', 'null');
             } catch (err) {
                 err.message.should.equal('No object was provided.');
+                done();
+            }
+        });
+
+        it('should throw an error if no key path was provided', function(done) {
+            try {
+                doc = {};
+                let kp = null;
+                assert.equal(kp, null);
+                path.setPath(doc, kp, 'null');
+            } catch (err) {
+                err.message.should.equal('No keyPath was provided.');
                 done();
             }
         });

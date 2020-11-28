@@ -6,8 +6,8 @@
 [![Minzipped Size](https://flat.badgen.net/bundlephobia/minzip/doc-path)](https://bundlephobia.com/result?p=doc-path)
 
 [![Build Status](https://travis-ci.org/mrodrig/doc-path.svg?branch=master)](https://travis-ci.org/mrodrig/doc-path)
-[![Maintainability](https://api.codeclimate.com/v1/badges/8c0cc3699d054fb77abe/maintainability)](https://codeclimate.com/github/mrodrig/doc-path/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/8c0cc3699d054fb77abe/test_coverage)](https://codeclimate.com/github/mrodrig/doc-path/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/8d357f67aa5aaf8d727e/maintainability)](https://codeclimate.com/github/mrodrig/doc-path/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/8d357f67aa5aaf8d727e/test_coverage)](https://codeclimate.com/github/mrodrig/doc-path/test_coverage)
 
 This module will take paths in documents which can include nested paths specified by '.'s and can evaluate the path
 to a value, or can set the value at that path depending on the function called.
