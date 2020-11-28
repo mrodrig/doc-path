@@ -2,7 +2,7 @@
 
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "should" }]*/
 
-let path = require('../src/path'),
+let path = require('../dist/path'),
     should = require('should'),
     assert = require('assert'),
     doc = {};
@@ -130,7 +130,7 @@ describe('doc-path Module', function() {
                 assert.equal(doc, null);
                 path.setPath(doc, 'testProperty', 'null');
             } catch (err) {
-                err.message.should.equal('No document was provided.');
+                err.message.should.equal('No object was provided.');
                 done();
             }
         });
@@ -147,7 +147,7 @@ describe('doc-path Module', function() {
                 assert.equal(doc, null);
                 path.setPath(doc, 'testProperty.test', 'null');
             } catch (err) {
-                err.message.should.equal('No document was provided.');
+                err.message.should.equal('No object was provided.');
                 done();
             }
         });
@@ -229,20 +229,29 @@ describe('doc-path Module', function() {
             doc = {};
             path.setPath(doc, 'constructor', 'prototype-polluted');
             assert.equal(doc.constructor, Object);
+
             path.setPath(doc, 'constructor.prototype.test', 'prototype-polluted');
             assert.equal(doc.test, undefined);
+            assert.equal(doc.__proto__.test, undefined);
             done();
         });
 
         it('should protect against prototype pollution via prototype', (done) => {
             path.setPath(Object, 'prototype.test', 'prototype-polluted');
             assert.equal({}.__proto__.test, undefined);
+            assert.equal(Object.prototype.test, undefined);
+
+            path.setPath(Object, 'prototype', 'prototype-polluted');
+            assert.notEqual({}.__proto__, 'prototype-polluted');
+            assert.notEqual(Object.prototype, 'prototype-polluted');
+
             done();
         });
 
         it('should protect against prototype pollution even if leading dot', (done) => {
             path.setPath(Object, '.prototype.test', 'prototype-polluted');
             assert.equal({}.__proto__.test, undefined);
+            assert.equal({}.test, undefined);
             done();
         });
     });

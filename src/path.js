@@ -1,3 +1,8 @@
+/**
+ * @license MIT
+ * doc-path <https://github.com/mrodrig/doc-path>
+ * Copyright (c) 2015-present, Michael Rodrigues.
+ */
 'use strict';
 
 module.exports = {
@@ -5,85 +10,96 @@ module.exports = {
     setPath
 };
 
-function evaluatePath(document, keyPath) {
-    if (!document) {
+function evaluatePath(obj, kp) {
+    if (!obj) {
         return null;
     }
 
-    let {indexOfDot, currentKey, remainingKeyPath} = computeStateInformation(keyPath);
+    let {dotIndex, key, remaining} = state(kp);
 
-    // If there is a '.' in the keyPath and keyPath doesn't appear in the document, recur on the subdocument
-    if (indexOfDot >= 0 && !document[keyPath]) {
-        // If there's an array at the currentKey in the document, then iterate over those items evaluating the remaining path
-        if (Array.isArray(document[currentKey])) {
-            return document[currentKey].map((doc) => evaluatePath(doc, remainingKeyPath));
+    // If there is a '.' in the key path and the key path doesn't appear in the object, recur on the subobject
+    if (dotIndex >= 0 && !obj[kp]) {
+        // If there's an array at the current key in the object, then iterate over those items evaluating the remaining path
+        if (Array.isArray(obj[key])) {
+            return obj[key].map((doc) => evaluatePath(doc, remaining));
         }
         // Otherwise, we can just recur
-        return evaluatePath(document[currentKey], remainingKeyPath);
-    } else if (Array.isArray(document)) {
-        // If this "document" is actually an array, then iterate over those items evaluating the path
-        return document.map((doc) => evaluatePath(doc, keyPath));
+        return evaluatePath(obj[key], remaining);
+    } else if (Array.isArray(obj)) {
+        // If this object is actually an array, then iterate over those items evaluating the path
+        return obj.map((doc) => evaluatePath(doc, kp));
     }
 
     // Otherwise, we can just return value directly
-    return document[keyPath];
+    return obj[kp];
 }
 
-function setPath(document, keyPath, value) {
-    if (!document) {
-        throw new Error('No document was provided.');
-    } else if (!keyPath) {
+/**
+ * Main function that performs validation before passing off to _sp
+ * @param obj {Object|Array} object to set value in
+ * @param kp {String} key path
+ * @param v {*} value to be set
+ * @returns {Object|Array}
+ */
+function setPath(obj, kp, v) {
+    if (!obj) {
+        throw new Error('No object was provided.');
+    } else if (!kp) {
         throw new Error('No keyPath was provided.');
     }
 
     // If this is clearly a prototype pollution attempt, then refuse to modify the path
-    if (keyPath.startsWith('__proto__') || keyPath.startsWith('constructor') || keyPath.startsWith('prototype')) {
-        return document;
+    if (kp.startsWith('__proto__') || kp.startsWith('constructor') || kp.startsWith('prototype')) {
+        return obj;
     }
 
-    return _setPath(document, keyPath, value);
+    return _sp(obj, kp, v);
 }
 
-function _setPath(document, keyPath, value) {
-    if (!document) {
-        throw new Error('No document was provided.');
-    }
+/**
+ * Helper function that will set the value in the provided object/array.
+ * @param obj {Object|Array} object to set value in
+ * @param kp {String} key path
+ * @param v {*} value to be set
+ * @returns {Object|Array}
+ * @private
+ */
+function _sp(obj, kp, v) {
+    let {dotIndex, key, remaining} = state(kp);
 
-    let {indexOfDot, currentKey, remainingKeyPath} = computeStateInformation(keyPath);
-
-    if (indexOfDot >= 0) {
-        // If there is a '.' in the keyPath, recur on the subdoc and ...
-        if (!document[currentKey] && Array.isArray(document)) {
+    if (dotIndex >= 0) {
+        // If there is a '.' in the key path, recur on the subdoc and ...
+        if (!obj[key] && Array.isArray(obj)) {
             // If this is an array and there are multiple levels of keys to iterate over, recur.
-            return document.forEach((doc) => _setPath(doc, keyPath, value));
-        } else if (!document[currentKey]) {
-            // If the currentKey doesn't exist yet, populate it
-            document[currentKey] = {};
+            return obj.forEach((doc) => _sp(doc, kp, v));
+        } else if (!obj[key]) {
+            // If the current key doesn't exist yet, populate it
+            obj[key] = {};
         }
-        _setPath(document[currentKey], remainingKeyPath, value);
-    } else if (Array.isArray(document)) {
-        // If this "document" is actually an array, then we can loop over each of the values and set the path
-        return document.forEach((doc) => _setPath(doc, remainingKeyPath, value));
+        _sp(obj[key], remaining, v);
+    } else if (Array.isArray(obj)) {
+        // If this "obj" is actually an array, then we can loop over each of the values and set the path
+        return obj.forEach((doc) => _sp(doc, remaining, v));
     } else {
         // Otherwise, we can set the path directly
-        document[keyPath] = value;
+        obj[kp] = v;
     }
 
-    return document;
+    return obj;
 }
 
 /**
  * Helper function that returns some information necessary to evaluate or set a path
  *   based on the provided keyPath value
- * @param keyPath
- * @returns {{indexOfDot: Number, currentKey: String, remainingKeyPath: String}}
+ * @param kp {String} key path (eg. 'specifications.mileage')
+ * @returns {{dotIndex: Number, key: String, remaining: String}}
  */
-function computeStateInformation(keyPath) {
-    let indexOfDot = keyPath.indexOf('.');
+function state(kp) {
+    let dotIndex = kp.indexOf('.');
 
     return {
-        indexOfDot,
-        currentKey: keyPath.slice(0, indexOfDot >= 0 ? indexOfDot : undefined),
-        remainingKeyPath: keyPath.slice(indexOfDot + 1)
+        dotIndex,
+        key: kp.slice(0, dotIndex >= 0 ? dotIndex : undefined),
+        remaining: kp.slice(dotIndex + 1)
     };
 }

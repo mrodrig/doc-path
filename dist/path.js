@@ -1,0 +1,6 @@
+/**
+ * @license MIT
+ * doc-path <https://github.com/mrodrig/doc-path>
+ * Copyright (c) 2015-present, Michael Rodrigues.
+ */
+"use strict";function evaluatePath(t,e){return t?_ep(t,e):null}function _ep(t,e){let{dotIndex:r,key:a,remaining:n}=state(e);return r>=0&&!t[e]?Array.isArray(t[a])?t[a].map(t=>evaluatePath(t,n)):evaluatePath(t[a],n):Array.isArray(t)?t.map(t=>evaluatePath(t,e)):t[e]}function setPath(t,e,r){if(!t)throw new Error("No object was provided.");if(!e)throw new Error("No keyPath was provided.");return e.startsWith("__proto__")||e.startsWith("constructor")||e.startsWith("prototype")?t:_sp(t,e,r)}function _sp(t,e,r){let{dotIndex:a,key:n,remaining:i}=state(e);if(a>=0){if(!t[n]&&Array.isArray(t))return t.forEach(t=>_sp(t,e,r));t[n]||(t[n]={}),_sp(t[n],i,r)}else{if(Array.isArray(t))return t.forEach(t=>_sp(t,i,r));t[e]=r}return t}function state(t){let e=t.indexOf(".");return{dotIndex:e,key:t.slice(0,e>=0?e:void 0),remaining:t.slice(e+1)}}module.exports={evaluatePath:evaluatePath,setPath:setPath};
