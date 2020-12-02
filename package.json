@@ -3,6 +3,7 @@
     "name": "doc-path",
     "description": "A document path library for Node",
     "version": "2.2.0",
+    "homepage": "https://mrodrig.github.io/doc-path",
     "repository": {
         "type": "git",
         "url": "http://github.com/mrodrig/doc-path.git"
@@ -13,8 +14,8 @@
         "test": "mocha test/tests.js",
         "coverage": "nyc --reporter=lcov --reporter=text-summary --reporter=text _mocha",
         "coveralls": "nyc report --reporter=text-lcov | coveralls",
-        "lint": "eslint src test",
-        "uglify": "uglifyjs --compress --mangle --comments --output dist/path.js -- src/path.js"
+        "lint": "eslint lib test",
+        "uglify": "uglifyjs --compress --mangle --comments --output dist/path.js -- lib/path.js"
     },
     "keywords": [
         "document",

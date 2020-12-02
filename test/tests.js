@@ -2,7 +2,7 @@
 
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "should" }]*/
 
-let path = require('../src/path'),
+let path = require('../dist/path'),
     should = require('should'),
     assert = require('assert'),
     doc = {};
