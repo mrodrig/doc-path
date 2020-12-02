@@ -15,5 +15,6 @@ before_script:
 script:
   - npm run lint
   - npm run coverage
-after_script:
+after_success:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - npm run coveralls
