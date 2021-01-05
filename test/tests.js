@@ -230,10 +230,12 @@ describe('doc-path Module', function() {
 
         it('should protect against prototype pollution via __proto__', (done) => {
             doc = {};
+            assert.equal(doc.polluted, undefined);
             path.setPath(doc, '__proto__.polluted', 'prototype-polluted');
             assert.equal(doc.__proto__.polluted, undefined);
             assert.equal(doc.polluted, undefined);
             assert.equal({}.polluted, undefined);
+            assert.equal(Object.polluted, undefined);
             done();
         });
 
@@ -264,6 +266,17 @@ describe('doc-path Module', function() {
             path.setPath(Object, '.prototype.test', 'prototype-polluted');
             assert.equal({}.__proto__.test, undefined);
             assert.equal({}.test, undefined);
+            done();
+        });
+
+        it('should protect against prototype pollution against a nested document', (done) => {
+            doc = {};
+            assert.equal(doc.polluted, undefined);
+            path.setPath(doc, 'a.__proto__.polluted', 'polluted!');
+            assert.equal(typeof doc.a, 'object');
+            assert.equal(doc.polluted, undefined);
+            assert.equal({}.polluted, undefined);
+            assert.equal(Object.polluted, undefined);
             done();
         });
     });
