@@ -62,7 +62,7 @@ describe('doc-path Module', function() {
                 },
                 'testProperty.testProperty2': 'testVal2'
             };
-            let returnVal = path.evaluatePath(doc, 'testProperty.testProperty2');
+            let returnVal = path.evaluatePath(doc, 'testProperty\\.testProperty2');
             assert.equal(returnVal, 'testVal2');
             done();
         });
@@ -109,6 +109,32 @@ describe('doc-path Module', function() {
             ];
             let returnVal = path.evaluatePath(doc, 'feature');
             returnVal.should.deepEqual(['A/C', 'Radio']);
+            done();
+        });
+
+        it('should work with nested dots in the path when escaped properly', (done) => {
+            doc = {
+                'a.a': 'a',
+                'a.b': {
+                    'c.d': '4',
+                    c: '5',
+                    'c.f': '6'
+                },
+                a: {
+                    a: 1,
+                    b: 2,
+                    'b.c.d': 32
+                }
+            };
+            // Normal paths:
+            path.evaluatePath(doc, 'a.a').should.equal(1);
+            path.evaluatePath(doc, 'a.b').should.equal(2);
+            // Nested dot paths:
+            path.evaluatePath(doc, 'a\\.a').should.equal('a');
+            path.evaluatePath(doc, 'a\\.b.c\\.d').should.equal('4');
+            path.evaluatePath(doc, 'a\\.b.c').should.equal('5');
+            path.evaluatePath(doc, 'a\\.b.c\\.f').should.equal('6');
+            path.evaluatePath(doc, 'a.b\\.c\\.d').should.equal(32);
             done();
         });
     });
@@ -277,6 +303,49 @@ describe('doc-path Module', function() {
             assert.equal(doc.polluted, undefined);
             assert.equal({}.polluted, undefined);
             assert.equal(Object.polluted, undefined);
+            done();
+        });
+
+        it('should be able to set paths with nested dots correctly', (done) => {
+            doc = {
+                'a.a': 'a',
+                'a.b': {
+                    'c.d': '4',
+                    c: '5',
+                    'c.f': '6'
+                },
+                a: {
+                    a: 1,
+                    b: 2,
+                    'b.c.d': 32
+                }
+            };
+            // Normal paths:
+            path.setPath(doc, 'a.a', 'b');
+            doc.a.a.should.equal('b');
+            doc['a.a'].should.not.equal('b');
+
+            path.setPath(doc, 'a.b', 3);
+            doc.a.b.should.equal(3);
+            doc['a.b'].should.not.equal(3);
+
+            // Nested dot paths:
+            path.setPath(doc, 'a\\.a', 1);
+            doc['a.a'].should.equal(1);
+            doc.a.a.should.not.equal(1);
+
+            path.setPath(doc, 'a\\.b.c\\.d', 4);
+            doc['a.b']['c.d'].should.equal(4);
+
+            path.setPath(doc, 'a\\.b.c', 5);
+            doc['a.b'].c.should.equal(5);
+
+            path.setPath(doc, 'a\\.b.c\\.f', 6);
+            doc['a.b']['c.f'].should.equal(6);
+
+            path.setPath(doc, 'a.b\\.c\\.d', 32);
+            doc.a['b.c.d'].should.equal(32);
+
             done();
         });
     });
