@@ -2,7 +2,7 @@
     "author": "mrodrig",
     "name": "doc-path",
     "description": "A document path library for Node",
-    "version": "2.3.0",
+    "version": "3.0.0",
     "homepage": "https://mrodrig.github.io/doc-path",
     "repository": {
         "type": "git",
@@ -43,7 +43,7 @@
         "uglify-es": "3.3.9"
     },
     "engines": {
-        "node": ">=10"
+        "node": ">=12"
     },
     "license": "MIT"
 }
