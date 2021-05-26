@@ -30,6 +30,7 @@ let path = require('doc-path');
 
 * `document` - `Object` - A JSON document that will be iterated over.
 * `key` - `String` - A path to the existing key whose value will be returned.
+  * Note: If your key has a dot in it (eg. `a.b`) then be sure to escape the dot with a blackslash (eg. `a\\.b`).
 
 If the key does not exist, `undefined` is returned.
 
@@ -81,6 +82,7 @@ console.log(path.evaluatePath(document, 'Features.packages.name'));
 
 * `document` - `Object` - A JSON document that will be iterated over.
 * `key` - `String` - A path to the existing key whose value will be set.
+  * Note: If your key has a dot in it (eg. `a.b`) then be sure to escape the dot with a blackslash (eg. `a\\.b`).
 * `value` - `*` - The value that will be set at the given key.
 
 If the key does not exist, then the object will be built up to have that path.
@@ -166,6 +168,7 @@ Lines        : 100% ( 29/29 )
 
 ## Features
 
+- Supports keys with escaped `.` characters (as of v3.0.0)
 - Supports nested paths
   - Including keys of objects inside arrays! (as of v2.0.0)
 - Same common path specification as other programs such as MongoDB
