@@ -34,6 +34,8 @@ let path = require('doc-path');
 
 If the key does not exist, `undefined` is returned.
 
+If the object's structure is extremely deep, then an error may be thrown if the maximum call stack size is exceeded while traversing the object.
+
 ##### path.evaluatePath Example:
 
 ```javascript
@@ -87,6 +89,7 @@ console.log(path.evaluatePath(document, 'Features.packages.name'));
 
 If the key does not exist, then the object will be built up to have that path.
 If no document is provided, an error will be thrown.
+If the object's structure is extremely deep, then an error may be thrown if the maximum call stack size is exceeded while traversing the object.
 
 #### path.setPath Example:
 
