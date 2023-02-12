@@ -2,20 +2,22 @@
     "author": "mrodrig",
     "name": "doc-path",
     "description": "A document path library for Node",
-    "version": "3.1.0",
+    "version": "4.0.0-beta.0",
     "homepage": "https://mrodrig.github.io/doc-path",
     "repository": {
         "type": "git",
         "url": "http://github.com/mrodrig/doc-path.git"
     },
-    "main": "./dist/path.js",
+    "main": "./lib/path.js",
+    "types": "./lib/path.d.ts",
     "scripts": {
-        "prepublishOnly": "npm run lint && npm run uglify && npm run test",
-        "test": "mocha test/tests.js",
+        "build": "npm run lint && npm run test && npm run compile",
+        "compile": "tsc",
         "coverage": "nyc --reporter=lcov --reporter=text-summary --reporter=text _mocha",
         "coveralls": "nyc report --reporter=text-lcov | coveralls",
-        "lint": "eslint lib test",
-        "uglify": "uglifyjs --compress --mangle --comments --output dist/path.js -- lib/path.js"
+        "lint": "eslint --ext .js,.ts src",
+        "prepublishOnly": "npm run build",
+        "test": "mocha -r ts-node/register src/test/index.ts"
     },
     "keywords": [
         "document",
@@ -35,15 +37,21 @@
     ],
     "dependencies": {},
     "devDependencies": {
+        "@types/mocha": "10.0.1",
+        "@types/node": "18.13.0",
+        "@typescript-eslint/eslint-plugin": "5.51.0",
+        "@typescript-eslint/parser": "5.51.0",
         "coveralls": "3.1.1",
         "eslint": "8.34.0",
+        "eslint-config-google": "0.14.0",
+        "eslint-plugin-import": "2.27.5",
         "mocha": "10.2.0",
         "nyc": "15.1.0",
-        "should": "13.2.3",
-        "uglify-es": "3.3.9"
+        "ts-node": "10.9.1",
+        "typescript": "4.9.5"
     },
     "engines": {
-        "node": ">=12"
+        "node": ">=16"
     },
     "license": "MIT"
 }
