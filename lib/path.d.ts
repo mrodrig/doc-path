@@ -2,7 +2,7 @@
  * Main function that evaluates the path in a particular object
  * @throws {Error} possible error if call stack size is exceeded
  */
-export declare function evaluatePath(obj: any, kp: string): any;
+export declare function evaluatePath(obj: any, kp: string): unknown;
 /**
  * Main function that performs validation before passing off to _sp
  * @throws {Error} possible error if call stack size is exceeded

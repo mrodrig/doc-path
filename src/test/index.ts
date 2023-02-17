@@ -1,4 +1,5 @@
 'use strict';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { evaluatePath, setPath } from '../path';
 import assert from 'assert';

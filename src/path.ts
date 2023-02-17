@@ -9,7 +9,7 @@
  * Main function that evaluates the path in a particular object
  * @throws {Error} possible error if call stack size is exceeded
  */
-export function evaluatePath(obj: any, kp: string): any {
+export function evaluatePath(obj: any, kp: string): unknown {
     if (!obj) {
         return null;
     }
@@ -20,7 +20,7 @@ export function evaluatePath(obj: any, kp: string): any {
     if (dotIndex >= 0 && typeof obj === 'object' && !(kp in obj)) {
         // If there's an array at the current key in the object, then iterate over those items evaluating the remaining path
         if (Array.isArray(obj[key])) {
-            return obj[key].map((doc: any) => evaluatePath(doc, remaining));
+            return obj[key].map((doc: unknown) => evaluatePath(doc, remaining));
         }
         // Otherwise, we can just recur
         return evaluatePath(obj[key], remaining);
@@ -54,7 +54,7 @@ export function setPath<T>(obj: T, kp: string, v: unknown): T {
 }
 
 // Helper function that will set the value in the provided object/array.
-function _sp(obj: any, kp: string, v: unknown): any {
+function _sp<T>(obj: T, kp: string, v: unknown): T {
     const {dotIndex, key, remaining} = state(kp);
 
     // If this is clearly a prototype pollution attempt, then refuse to modify the path
@@ -64,20 +64,21 @@ function _sp(obj: any, kp: string, v: unknown): any {
 
     if (dotIndex >= 0) {
         // If there is a '.' in the key path, recur on the subdoc and ...
-        if (typeof obj === 'object' && obj !== null && !obj[key] && Array.isArray(obj)) {
+        if (typeof obj === 'object' && obj !== null && !(key in obj) && Array.isArray(obj)) {
             // If this is an array and there are multiple levels of keys to iterate over, recur.
-            return obj.forEach((doc) => _sp(doc, kp, v));
-        } else if (!obj[key]) {
+            obj.forEach((doc) => _sp(doc, kp, v));
+        } else if (typeof obj === 'object' && obj !== null && !(key in obj) && !Array.isArray(obj)) {
             // If the current key doesn't exist yet, populate it
-            obj[key] = {};
+            (obj as Record<string, unknown>)[key] = {};
+        } else {
+            _sp((obj as Record<string, unknown>)[key], remaining, v);
         }
-        _sp(obj[key], remaining, v);
     } else if (Array.isArray(obj)) {
         // If this "obj" is actually an array, then we can loop over each of the values and set the path
-        return obj.forEach((doc) => _sp(doc, remaining, v));
+        obj.forEach((doc) => _sp(doc, remaining, v));
     } else {
         // Otherwise, we can set the path directly
-        obj[key] = v;
+        (obj as Record<string, unknown>)[key] = v;
     }
 
     return obj;

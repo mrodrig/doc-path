@@ -1,13 +1,11 @@
 # A Document Path Library for Node
 
-[![Dependencies](https://img.shields.io/david/mrodrig/doc-path.svg)](https://www.npmjs.org/package/doc-path)
-[![Downloads](http://img.shields.io/npm/dm/doc-path.svg)](https://www.npmjs.org/package/doc-path)
 [![NPM version](https://img.shields.io/npm/v/doc-path.svg)](https://www.npmjs.org/package/doc-path)
-[![Minzipped Size](https://flat.badgen.net/bundlephobia/minzip/doc-path)](https://bundlephobia.com/result?p=doc-path)
-
-[![Build Status](https://travis-ci.org/mrodrig/doc-path.svg?branch=master)](https://travis-ci.org/mrodrig/doc-path)
+[![Downloads](https://img.shields.io/npm/dm/doc-path)](https://www.npmjs.org/package/doc-path)
+[![Minzipped Size](https://img.shields.io/bundlephobia/minzip/doc-path)](https://bundlephobia.com/result?p=doc-path)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/mrodrig/doc-path/automated-tests-workflow.yml)](https://github.com/mrodrig/doc-path/actions/workflows/automated-tests-workflow.yml)
 [![Coverage Status](https://coveralls.io/repos/github/mrodrig/doc-path/badge.svg?branch=stable)](https://coveralls.io/github/mrodrig/doc-path?branch=stable)
-[![Maintainability](https://api.codeclimate.com/v1/badges/8d357f67aa5aaf8d727e/maintainability)](https://codeclimate.com/github/mrodrig/doc-path/maintainability)
+[![Dependencies](https://img.shields.io/librariesio/release/npm/doc-path)](https://www.npmjs.org/package/doc-path)
 
 This module will take paths in documents which can include nested paths specified by '.'s and can evaluate the path
 to a value, or can set the value at that path depending on the function called.
