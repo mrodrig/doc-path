@@ -9,34 +9,36 @@
  * Main function that evaluates the path in a particular object
  * @throws {Error} possible error if call stack size is exceeded
  */
-export function evaluatePath(obj: any, kp: string): unknown {
-    if (!obj) {
+export function evaluatePath(obj: unknown, kp: string): unknown {
+    if (typeof obj !== 'object' || obj === null || !obj) {
         return null;
     }
 
     const {dotIndex, key, remaining} = state(kp);
+    const kpVal = typeof obj === 'object' && kp in obj ? (obj as Record<string, unknown>)[kp] : null;
+    const keyVal = key in obj ? (obj as Record<string, unknown>)[key] : null;
 
     // If there is a '.' in the key path and the key path doesn't appear in the object, recur on the subobject
     if (dotIndex >= 0 && typeof obj === 'object' && !(kp in obj)) {
         // If there's an array at the current key in the object, then iterate over those items evaluating the remaining path
-        if (Array.isArray(obj[key])) {
-            return obj[key].map((doc: unknown) => evaluatePath(doc, remaining));
+        if (Array.isArray(keyVal)) {
+            return keyVal.map((doc: unknown) => evaluatePath(doc, remaining));
         }
         // Otherwise, we can just recur
-        return evaluatePath(obj[key], remaining);
+        return evaluatePath(keyVal, remaining);
     } else if (Array.isArray(obj)) {
         // If this object is actually an array, then iterate over those items evaluating the path
         return obj.map((doc) => evaluatePath(doc, kp));
     } else if (dotIndex >= 0 && kp !== key && typeof obj === 'object' && key in obj) {
-        // If there's a field with a non-nested dot, then recur into that sub-value
-        return evaluatePath(obj[key], remaining);
+    // If there's a field with a non-nested dot, then recur into that sub-value
+        return evaluatePath(keyVal, remaining);
     } else if (dotIndex === -1 && typeof obj === 'object' && key in obj && !(kp in obj)) {
         // If the field is here, but the key was escaped
-        return obj[key];
+        return keyVal;
     }
 
     // Otherwise, we can just return value directly
-    return obj[kp];
+    return kpVal;
 }
 
 /**

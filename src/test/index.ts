@@ -146,10 +146,10 @@ describe('doc-path Module', function() {
                 'E.F': 'abc'
             };
 
-            path.evaluatePath(doc, 'A.B').should.equal(false);
-            path.evaluatePath(doc, 'B.C').should.equal(true);
-            path.evaluatePath(doc, 'C.D').should.equal(1);
-            path.evaluatePath(doc, 'D.E').should.equal(0);
+            assert.equal(evaluatePath(doc, 'A.B'), false);
+            assert.equal(evaluatePath(doc, 'B.C'), true);
+            assert.equal(evaluatePath(doc, 'C.D'), 1);
+            assert.equal(evaluatePath(doc, 'D.E'), 0);
 
             done();
         });
