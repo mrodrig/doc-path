@@ -137,6 +137,23 @@ describe('doc-path Module', function() {
             path.evaluatePath(doc, 'a.b\\.c\\.d').should.equal(32);
             done();
         });
+
+        it('should evaluate falsy values correctly', (done) => {
+            doc = {
+                'A.B': false,
+                'B.C': true,
+                'C.D': 1,
+                'D.E': 0,
+                'E.F': 'abc'
+            };
+
+            path.evaluatePath(doc, 'A.B').should.equal(false);
+            path.evaluatePath(doc, 'B.C').should.equal(true);
+            path.evaluatePath(doc, 'C.D').should.equal(1);
+            path.evaluatePath(doc, 'D.E').should.equal(0);
+
+            done();
+        });
     });
 
     describe('setPath', () => {
