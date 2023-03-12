@@ -6,26 +6,26 @@ import assert from 'assert';
 
 let doc: Record<string, any> = {};
 
-describe('doc-path Module', function() {
-    describe('evaluatePath', function() {
-        beforeEach(function() {
+describe('doc-path Module', () => {
+    describe('evaluatePath', () => {
+        beforeEach(() => {
             doc = {};
         });
 
-        it('should get a non-nested property that exists', function(done) {
+        it('should get a non-nested property that exists', (done) => {
             doc.testProperty = 'testValue';
             const returnVal = evaluatePath(doc, 'testProperty');
             assert.equal(returnVal, 'testValue');
             done();
         });
 
-        it('should return null if the non-nested property does not exist', function(done) {
+        it('should return null if the non-nested property does not exist', (done) => {
             const returnVal = evaluatePath(doc, 'testProperty');
             assert.equal(returnVal, null);
             done();
         });
 
-        it('should get a non-nested property that exists', function(done) {
+        it('should get a non-nested property that exists', (done) => {
             doc.testProperty = {
                 testProperty2: 'testValue'
             };
@@ -34,7 +34,7 @@ describe('doc-path Module', function() {
             done();
         });
 
-        it('should return null if the nested property does not exist', function(done) {
+        it('should return null if the nested property does not exist', (done) => {
             const returnVal = evaluatePath(doc, 'testProperty.testProperty2');
             assert.equal(returnVal, null);
             done();
@@ -160,13 +160,13 @@ describe('doc-path Module', function() {
             doc = {};
         });
 
-        it('should get a non-nested property that exists', function(done) {
+        it('should get a non-nested property that exists', (done) => {
             const returnVal = setPath(doc, 'testProperty', 'null');
             assert.equal(returnVal, doc);
             done();
         });
 
-        it('should throw an error if no object was provided', function(done) {
+        it('should throw an error if no object was provided', (done) => {
             try {
                 const doc = null;
                 assert.equal(doc, null);
@@ -180,13 +180,13 @@ describe('doc-path Module', function() {
             }
         });
 
-        it('should get a non-nested property that exists', function(done) {
+        it('should get a non-nested property that exists', (done) => {
             const returnVal = setPath(doc, 'testProperty.testProperty2', 'testValue');
             assert.equal(returnVal, doc);
             done();
         });
 
-        it('should throw an error if no object was provided with recursive key', function(done) {
+        it('should throw an error if no object was provided with recursive key', (done) => {
             try {
                 const doc = null;
                 assert.equal(doc, null);
@@ -200,20 +200,18 @@ describe('doc-path Module', function() {
             }
         });
 
-        // it('should throw an error if no key path was provided', function(done) {
-        //     try {
-        //         doc = {};
-        //         const kp = null;
-        //         assert.equal(kp, null);
-        //         setPath(doc, kp, 'null');
-        //     } catch (err) {
-        //         if (err instanceof Error) {
-        //             assert.equal(err.message, 'No keyPath was provided.');
-        //             return done();
-        //         }
-        //         done(err);
-        //     }
-        // });
+        it('should throw an error if no key path was provided', (done) => {
+            try {
+                doc = {};
+                const kp = null;
+                assert.equal(kp, null);
+                setPath(doc, kp as any, 'null');
+                done(new Error('Should not have succeeded'));
+            } catch (err) {
+                assert.equal(err instanceof Error ? err.message : '', 'No keyPath was provided.');
+                done();
+            }
+        });
 
         it('should work with multiple accesses', (done) => {
             let returnVal = setPath(doc, 'testProperty.testProperty2', 'testVal');
