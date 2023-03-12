@@ -373,5 +373,13 @@ describe('doc-path Module', function() {
 
             done();
         });
+
+        it('should handle multiple nested levels properly', (done) => {
+            setPath(doc, 'data.category', 'Computers');
+            setPath(doc, 'data.options.name', 'MacBook Pro 15');
+            assert.equal(doc.data.category, 'Computers');
+            assert.equal(doc.data.options.name, 'MacBook Pro 15');
+            done();
+        });
     });
 });

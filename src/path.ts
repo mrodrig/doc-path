@@ -69,15 +69,16 @@ function _sp<T>(obj: T, kp: string, v: unknown): T {
         if (typeof obj === 'object' && obj !== null && !(key in obj) && Array.isArray(obj)) {
             // If this is an array and there are multiple levels of keys to iterate over, recur.
             obj.forEach((doc) => _sp(doc, kp, v));
+            return obj;
         } else if (typeof obj === 'object' && obj !== null && !(key in obj) && !Array.isArray(obj)) {
             // If the current key doesn't exist yet, populate it
             (obj as Record<string, unknown>)[key] = {};
-        } else {
-            _sp((obj as Record<string, unknown>)[key], remaining, v);
         }
+        _sp((obj as Record<string, unknown>)[key], remaining, v);
     } else if (Array.isArray(obj)) {
         // If this "obj" is actually an array, then we can loop over each of the values and set the path
         obj.forEach((doc) => _sp(doc, remaining, v));
+        return obj;
     } else {
         // Otherwise, we can set the path directly
         (obj as Record<string, unknown>)[key] = v;
