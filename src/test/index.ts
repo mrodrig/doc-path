@@ -153,6 +153,27 @@ describe('doc-path Module', () => {
 
             done();
         });
+
+        it('should return undefined if the property does not exist on an object', (done) => {
+            doc = {
+                name: 'list',
+                features: [
+                    {
+                        name: 'modules'
+                    },
+                    {
+                        pros: 'efficiency'
+                    },
+                    {
+                        cons: ['cost', 'time']
+                    }
+                ]
+            };
+            
+            assert.equal(evaluatePath(doc, 'downloads'), undefined);
+
+            done();
+        });
     });
 
     describe('setPath', () => {

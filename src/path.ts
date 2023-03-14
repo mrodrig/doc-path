@@ -10,13 +10,13 @@
  * @throws {Error} possible error if call stack size is exceeded
  */
 export function evaluatePath(obj: unknown, kp: string): unknown {
-    if (typeof obj !== 'object' || obj === null || !obj) {
+    if (!obj) {
         return null;
     }
 
     const {dotIndex, key, remaining} = state(kp);
-    const kpVal = typeof obj === 'object' && kp in obj ? (obj as Record<string, unknown>)[kp] : null;
-    const keyVal = key in obj ? (obj as Record<string, unknown>)[key] : null;
+    const kpVal = typeof obj === 'object' && kp in obj ? (obj as Record<string, unknown>)[kp] : undefined;
+    const keyVal = typeof obj === 'object' && key in obj ? (obj as Record<string, unknown>)[key] : undefined;
 
     // If there is a '.' in the key path and the key path doesn't appear in the object, recur on the subobject
     if (dotIndex >= 0 && typeof obj === 'object' && !(kp in obj)) {
@@ -30,7 +30,7 @@ export function evaluatePath(obj: unknown, kp: string): unknown {
         // If this object is actually an array, then iterate over those items evaluating the path
         return obj.map((doc) => evaluatePath(doc, kp));
     } else if (dotIndex >= 0 && kp !== key && typeof obj === 'object' && key in obj) {
-    // If there's a field with a non-nested dot, then recur into that sub-value
+        // If there's a field with a non-nested dot, then recur into that sub-value
         return evaluatePath(keyVal, remaining);
     } else if (dotIndex === -1 && typeof obj === 'object' && key in obj && !(kp in obj)) {
         // If the field is here, but the key was escaped
