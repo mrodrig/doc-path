@@ -32,3 +32,6 @@ node_modules
 .idea
 .nyc_output
 .nyc_output/*
+
+# Built JavaScript files
+lib

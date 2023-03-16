@@ -1,7 +1,7 @@
 'use strict';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { evaluatePath, setPath } from '../path';
+import { evaluatePath, setPath } from '../src/path';
 import assert from 'assert';
 
 let doc: Record<string, any> = {};
