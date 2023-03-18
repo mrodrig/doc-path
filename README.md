@@ -5,7 +5,7 @@
 [![Minzipped Size](https://img.shields.io/bundlephobia/minzip/doc-path)](https://bundlephobia.com/result?p=doc-path)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/mrodrig/doc-path/automated-tests-workflow.yml)](https://github.com/mrodrig/doc-path/actions/workflows/automated-tests-workflow.yml)
 [![Coverage Status](https://coveralls.io/repos/github/mrodrig/doc-path/badge.svg?branch=stable)](https://coveralls.io/github/mrodrig/doc-path?branch=stable)
-[![Dependencies](https://img.shields.io/librariesio/release/npm/doc-path)](https://www.npmjs.org/package/doc-path)
+[![Typings](https://img.shields.io/npm/types/doc-path)](https://www.npmjs.org/package/doc-path)
 
 This module will take paths in documents which can include nested paths specified by '.'s and can evaluate the path
 to a value, or can set the value at that path depending on the function called.
