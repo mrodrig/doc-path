@@ -5,57 +5,47 @@
  */
 'use strict';
 
-module.exports = {
-    evaluatePath,
-    setPath
-};
-
 /**
  * Main function that evaluates the path in a particular object
- * @param {Object|Array} obj object to evaluate path in
- * @param {String} kp key path
- * @returns {*|null} value at key path
  * @throws {Error} possible error if call stack size is exceeded
  */
-function evaluatePath(obj, kp) {
+export function evaluatePath(obj: unknown, kp: string): unknown {
     if (!obj) {
         return null;
     }
 
-    let {dotIndex, key, remaining} = state(kp);
+    const {dotIndex, key, remaining} = state(kp);
+    const kpVal = typeof obj === 'object' && kp in obj ? (obj as Record<string, unknown>)[kp] : undefined;
+    const keyVal = typeof obj === 'object' && key in obj ? (obj as Record<string, unknown>)[key] : undefined;
 
     // If there is a '.' in the key path and the key path doesn't appear in the object, recur on the subobject
     if (dotIndex >= 0 && typeof obj === 'object' && !(kp in obj)) {
         // If there's an array at the current key in the object, then iterate over those items evaluating the remaining path
-        if (Array.isArray(obj[key])) {
-            return obj[key].map((doc) => evaluatePath(doc, remaining));
+        if (Array.isArray(keyVal)) {
+            return keyVal.map((doc: unknown) => evaluatePath(doc, remaining));
         }
         // Otherwise, we can just recur
-        return evaluatePath(obj[key], remaining);
+        return evaluatePath(keyVal, remaining);
     } else if (Array.isArray(obj)) {
         // If this object is actually an array, then iterate over those items evaluating the path
         return obj.map((doc) => evaluatePath(doc, kp));
     } else if (dotIndex >= 0 && kp !== key && typeof obj === 'object' && key in obj) {
         // If there's a field with a non-nested dot, then recur into that sub-value
-        return evaluatePath(obj[key], remaining);
+        return evaluatePath(keyVal, remaining);
     } else if (dotIndex === -1 && typeof obj === 'object' && key in obj && !(kp in obj)) {
         // If the field is here, but the key was escaped
-        return obj[key];
+        return keyVal;
     }
 
     // Otherwise, we can just return value directly
-    return obj[kp];
+    return kpVal;
 }
 
 /**
  * Main function that performs validation before passing off to _sp
- * @param obj {Object|Array} object to set value in
- * @param kp {String} key path
- * @param v {*} value to be set
- * @returns {Object|Array}
  * @throws {Error} possible error if call stack size is exceeded
  */
-function setPath(obj, kp, v) {
+export function setPath<T>(obj: T, kp: string, v: unknown): T {
     if (!obj) {
         throw new Error('No object was provided.');
     } else if (!kp) {
@@ -65,16 +55,9 @@ function setPath(obj, kp, v) {
     return _sp(obj, kp, v);
 }
 
-/**
- * Helper function that will set the value in the provided object/array.
- * @param obj {Object|Array} object to set value in
- * @param kp {String} key path
- * @param v {*} value to be set
- * @returns {Object|Array}
- * @private
- */
-function _sp(obj, kp, v) {
-    let {dotIndex, key, remaining} = state(kp);
+// Helper function that will set the value in the provided object/array.
+function _sp<T>(obj: T, kp: string, v: unknown): T {
+    const {dotIndex, key, remaining} = state(kp);
 
     // If this is clearly a prototype pollution attempt, then refuse to modify the path
     if (kp.startsWith('__proto__') || kp.startsWith('constructor') || kp.startsWith('prototype')) {
@@ -83,34 +66,30 @@ function _sp(obj, kp, v) {
 
     if (dotIndex >= 0) {
         // If there is a '.' in the key path, recur on the subdoc and ...
-        if (!obj[key] && Array.isArray(obj)) {
+        if (typeof obj === 'object' && obj !== null && !(key in obj) && Array.isArray(obj)) {
             // If this is an array and there are multiple levels of keys to iterate over, recur.
-            return obj.forEach((doc) => _sp(doc, kp, v));
-        } else if (!obj[key]) {
+            obj.forEach((doc) => _sp(doc, kp, v));
+            return obj;
+        } else if (typeof obj === 'object' && obj !== null && !(key in obj) && !Array.isArray(obj)) {
             // If the current key doesn't exist yet, populate it
-            obj[key] = {};
+            (obj as Record<string, unknown>)[key] = {};
         }
-        _sp(obj[key], remaining, v);
+        _sp((obj as Record<string, unknown>)[key], remaining, v);
     } else if (Array.isArray(obj)) {
         // If this "obj" is actually an array, then we can loop over each of the values and set the path
-        return obj.forEach((doc) => _sp(doc, remaining, v));
+        obj.forEach((doc) => _sp(doc, remaining, v));
+        return obj;
     } else {
         // Otherwise, we can set the path directly
-        obj[key] = v;
+        (obj as Record<string, unknown>)[key] = v;
     }
 
     return obj;
 }
 
-/**
- * Helper function that returns some information necessary to evaluate or set a path
- *   based on the provided keyPath value
- * @param kp {String} key path (eg. 'specifications.mileage')
- * @returns {{dotIndex: Number, key: String, remaining: String}}
- */
-function state(kp) {
-    let dotIndex = findFirstNonEscapedDotIndex(kp);
-
+// Helper function that returns some information necessary to evaluate or set a path  based on the provided keyPath value
+function state(kp: string): PathState {
+    const dotIndex = findFirstNonEscapedDotIndex(kp);
     return {
         dotIndex,
         key: kp.slice(0, dotIndex >= 0 ? dotIndex : undefined).replace(/\\./g, '.'),
@@ -118,11 +97,17 @@ function state(kp) {
     };
 }
 
-function findFirstNonEscapedDotIndex(kp) {
+function findFirstNonEscapedDotIndex(kp: string) {
     for (let i = 0; i < kp.length; i++) {
         const previousChar = i > 0 ? kp[i - 1] : '',
             currentChar = kp[i];
         if (currentChar === '.' && previousChar !== '\\') return i;
     }
     return -1;
+}
+
+interface PathState {
+    dotIndex: number;
+    key: string;
+    remaining: string;
 }
