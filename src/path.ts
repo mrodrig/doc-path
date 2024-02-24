@@ -76,27 +76,61 @@ export function setPath<T>(obj: T, kp: string, v: unknown): T {
 function _sp<T>(obj: T, kp: string, v: unknown): T {
     const {dotIndex, key, remaining} = state(kp);
 
+    console.log(`KP=${kp}, remaining=${remaining}, dotIndex=${dotIndex}, key=${key}, kp in obj =${(typeof obj === 'object' && kp in (obj as any))}`);
+
     // If this is clearly a prototype pollution attempt, then refuse to modify the path
     if (kp.startsWith('__proto__') || kp.startsWith('constructor') || kp.startsWith('prototype')) {
+        console.log('  case sec');
         return obj;
     }
 
     if (dotIndex >= 0) {
+        const keyAsInt = parseInt(key);
+
         // If there is a '.' in the key path, recur on the subdoc and ...
-        if (typeof obj === 'object' && obj !== null && !(key in obj) && Array.isArray(obj)) {
+        if (typeof obj === 'object' && obj !== null && !(key in obj) && Array.isArray(obj) && !isNaN(keyAsInt)) {
+            console.log('  case 1.0');
+
+            if (!(obj as Record<string, unknown>)[key]) {
+                (obj as Record<string, unknown>)[key] = {};
+            }
+            _sp((obj as Record<string, unknown>)[key], remaining, v);
+            return obj;
+        } else if (typeof obj === 'object' && obj !== null && !(key in obj) && Array.isArray(obj)) {
+            console.log('  case 1.1');
             // If this is an array and there are multiple levels of keys to iterate over, recur.
             obj.forEach((doc) => _sp(doc, kp, v));
             return obj;
         } else if (typeof obj === 'object' && obj !== null && !(key in obj) && !Array.isArray(obj)) {
-            // If the current key doesn't exist yet, populate it
-            (obj as Record<string, unknown>)[key] = {};
+            console.log('  case 1.2');
+
+            const { key: nextKey } = state(remaining);
+            const nextKeyAsInt = parseInt(nextKey);
+            if (!isNaN(nextKeyAsInt)) {
+                // If the current key doesn't exist yet, populate an empty array
+                (obj as Record<string, unknown>)[key] = [];
+            } else {
+                // If the current key doesn't exist yet, populate it
+                (obj as Record<string, unknown>)[key] = {};
+            }
         }
+        console.log('  case 1.3');
         _sp((obj as Record<string, unknown>)[key], remaining, v);
     } else if (Array.isArray(obj)) {
+        const keyAsInt = parseInt(key);
+        if (kp === key && dotIndex === -1 && !isNaN(keyAsInt)) {
+            console.log('  case 2.1');
+            (obj as Record<string, unknown>)[key] = v;
+            return obj;
+        }
+
+        console.log('  case 2.2');
+
         // If this "obj" is actually an array, then we can loop over each of the values and set the path
         obj.forEach((doc) => _sp(doc, remaining, v));
         return obj;
     } else {
+        console.log('  case 3');
         // Otherwise, we can set the path directly
         (obj as Record<string, unknown>)[key] = v;
     }
