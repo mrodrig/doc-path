@@ -78,9 +78,7 @@ function _sp<T>(obj: T, kp: string, v: unknown): T {
         if (typeof obj === 'object' && obj !== null && !(key in obj) && Array.isArray(obj) && !isNaN(keyAsInt)) {
 
             // If there's no value at obj[key] then populate an empty object
-            if (!(obj as Record<string, unknown>)[key]) {
-                (obj as Record<string, unknown>)[key] = {};
-            }
+            (obj as Record<string, unknown>)[key] = (obj as Record<string, unknown>)[key] ?? {};
             
             // Continue iterating on the rest of the key path to set the appropriate value where intended and then return
             _sp((obj as Record<string, unknown>)[key], remaining, v);

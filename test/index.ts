@@ -174,6 +174,52 @@ describe('doc-path Module', () => {
 
             done();
         });
+
+        it('should evaluate the properties within an array properly', (done) => {
+            doc = {
+                list: [{
+                    a: 1
+                }, {
+                    a: 2
+                }]
+            };
+            
+            assert.deepEqual(evaluatePath(doc, 'list.a'), [1, 2]);
+
+            done();
+        });
+
+        it('should evaluate the property even when an array index is included in the path', (done) => {
+            doc = {
+                list: [{
+                    a: 1
+                }, {
+                    a: 2
+                }]
+            };
+            
+            assert.equal(evaluatePath(doc, 'list.0.a'), 1);
+            assert.equal(evaluatePath(doc, 'list.1.a'), 2);
+            assert.equal(evaluatePath(doc, 'list.2.a'), undefined);
+
+
+            done();
+        });
+
+        it('should evaluate the property even when an array index is the last key in the path', (done) => {
+            doc = {
+                list: [{
+                    a: 1
+                }, {
+                    a: 2
+                }]
+            };
+            
+            assert.deepEqual(evaluatePath(doc, 'list.0'), { a: 1 });
+            assert.deepEqual(evaluatePath(doc, 'list.2'), undefined);
+
+            done();
+        });
     });
 
     describe('setPath', () => {
@@ -398,6 +444,28 @@ describe('doc-path Module', () => {
             setPath(doc, 'data.options.name', 'MacBook Pro 15');
             assert.equal(doc.data.category, 'Computers');
             assert.equal(doc.data.options.name, 'MacBook Pro 15');
+            done();
+        });
+
+        it('should set a value properly when an array index is specified in the key path', (done) => {
+            setPath(doc, 'list.0.a', '1');
+            setPath(doc, 'list.1.a', '2');
+            assert.deepEqual(doc, {list: [ {a: 1}, {a: 2} ]});
+            done();
+        });
+
+        it('should set a value properly when an array index is specified in the key path', (done) => {
+            setPath(doc, 'list.test.0.a', '1');
+            setPath(doc, 'list.test.1', '2');
+            assert.deepEqual(doc, {list: {test: [ {a: 1}, 2 ]}});
+            done();
+        });
+
+        it('should set a value properly when an array index is specified in the key path - beyond first index', (done) => {
+            setPath(doc, 'list.1.a', '2');
+            const expected = { list: [] };
+            (expected.list[1] as unknown) = {a: 2};
+            assert.deepEqual(doc, expected);
             done();
         });
     });
