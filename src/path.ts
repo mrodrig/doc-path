@@ -95,6 +95,10 @@ function _sp<T>(obj: T, kp: string, v: unknown): T {
             if (!isNaN(nextKeyAsInt)) {
                 // If the current key doesn't exist yet and the next key is a number (likely array index), populate an empty array
                 (obj as Record<string, unknown>)[key] = [];
+            } else if (remaining === '') {
+                // If the remaining key is empty, then a `.` character appeared right at the end of the path and wasn't actually indicating a separate level
+                (obj as Record<string, unknown>)[kp] = v;
+                return obj;
             } else {
                 // If the current key doesn't exist yet, populate it
                 (obj as Record<string, unknown>)[key] = {};
