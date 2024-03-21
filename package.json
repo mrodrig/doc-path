@@ -6,7 +6,7 @@
     "homepage": "https://mrodrig.github.io/doc-path",
     "repository": {
         "type": "git",
-        "url": "http://github.com/mrodrig/doc-path.git"
+        "url": "git+ssh://git@github.com/mrodrig/doc-path.git"
     },
     "main": "./lib/path.js",
     "types": "./lib/path.d.ts",
