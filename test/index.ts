@@ -468,5 +468,17 @@ describe('doc-path Module', () => {
             assert.deepEqual(doc, expected);
             done();
         });
+
+        it('should handle a trailing `.` character in the key path as part of the key rather than as a separate key level - single level', (done) => {
+            setPath(doc, 'Account No.', '1');
+            assert.deepEqual(doc, { 'Account No.': '1' });
+            done();
+        });
+
+        it('should handle a trailing `.` character in the key path as part of the key rather than as a separate key level - multiple levels', (done) => {
+            setPath(doc, 'user.Account No.', '1');
+            assert.deepEqual(doc, { user: { 'Account No.': '1' } });
+            done();
+        });
     });
 });
